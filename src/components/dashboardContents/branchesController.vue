@@ -24,7 +24,9 @@
                                 <td>{{ index + 1 }}</td>
                                 <td>{{ item.name }}</td>
                                 <td>{{ item.address}}</td>
-                                <td>{{ item.phoneNumber }}</td>
+                                <td>{{ item.phoneNumber }}
+                                <td>{{ item.created_at }}
+                                </td>
                                 <td class="text-center">
                                     <v-btn icon color="indigo" light @click="editHandler(item)">
                                         <v-icon>mdi-pencil</v-icon>
@@ -100,6 +102,10 @@
                         value: 'phoneNumber'
                     },
                     {
+                        text: 'create at',
+                        value: 'createat'
+                    },
+                    {
                         text: 'Aksi',
                         value: null
                     },
@@ -112,7 +118,8 @@
                 form: {
                     name: '',
                     address: '',
-                    phoneNumber: ''
+                    phoneNumber: '',
+                    created_at: ''
                 },
                 branch: new FormData,
                 typeInput: 'new',
@@ -131,6 +138,7 @@
                 this.branch.append('name', this.form.name);
                 this.branch.append('address', this.form.address);
                 this.branch.append('phoneNumber', this.form.phoneNumber);
+                this.branch.append('created at', this.form.created_at);
                 var uri = this.$apiUrl + '/branches'
                 this.load = true
                 this.$http.post(uri, this.branch).then(response => {
@@ -158,8 +166,7 @@
                 this.$http.post(uri, this.branch).then(response => {
                     this.snackbar = true; //mengaktifkan snackbar
                     this.color = 'green'; //memberi warna snackbar
-                    this.text = response.data.message; //memasukkan pesan ke snackba
-                    r
+                    this.text = response.data.message; //memasukkan pesan ke snackbar
                     this.load = false;
                     this.dialog = false
                     this.getData(); //mengambil data branch
@@ -180,6 +187,7 @@
                 this.form.name = item.name;
                 this.form.address = item.address;
                 this.form.phoneNumber = item.phoneNumber,
+                this.form.created_at = item.created_at,
                 this.updatedId = item.id
             },
             deleteData(deleteId) { //mengahapus data
